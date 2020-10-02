@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("MainActivity", sdf.format(datetimeCalendar.getTime()));
         Log.d("MainActivity", apiDate);
-        
+
 
         convertStringTODate(apiDate);
         result.setText(sdf.format(datetimeCalendar.getTime()));
