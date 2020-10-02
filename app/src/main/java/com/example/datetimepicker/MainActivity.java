@@ -5,19 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private TextView result;
+    private TextView dateArabic;
     private Button pick;
     private Calendar datetimeCalendar;
 
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         result = findViewById(R.id.result);
+        dateArabic = findViewById(R.id.dateArabic);
         pick = findViewById(R.id.btn_pick);
         datetimeCalendar = Calendar.getInstance();
 
@@ -80,7 +86,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setDateTimeResult() {
+
+        //  2020-09-29 20:09:48
+
+        SimpleDateFormat fromApi = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM dd yyyy 'at' KK:mm:a", Locale.getDefault());
+
+        String apiDate = fromApi.format(datetimeCalendar.getTime());
+
+
+        Log.d("MainActivity", sdf.format(datetimeCalendar.getTime()));
+        Log.d("MainActivity", apiDate);
+        
+
+        convertStringTODate(apiDate);
         result.setText(sdf.format(datetimeCalendar.getTime()));
+    }
+
+    private void convertStringTODate(String apiDate) {
+
+        Log.d("MainActivity", "**********************");
+        Log.d("MainActivity", apiDate);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date1 = null;
+        try {
+            date1 = dateFormat.parse(apiDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.d("MainActivity", date1 + "");
+
+
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("a hh:mm ", new Locale("ar"));
+
+        Log.d("MainActivity", dateTimeFormat.format(date1));
+
+
+        SimpleDateFormat dateWeekFormat = new SimpleDateFormat("dd-MM-yyy");
+
+        Log.d("MainActivity", dateWeekFormat.format(date1));
     }
 }
